@@ -1,0 +1,11 @@
+{
+  "name": "promise-polyfill",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Ayub-Begimkulov <begimkulov963@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "@types/node": "^15.12.5",
+    "typescript": "^4.3.4"
+  }
+}
