@@ -144,7 +144,7 @@ export class MyPromise<T> {
 
   private runThenCallbacks() {
     if (this.state === States.PENDING) return;
-    async(() => {
+    asap(() => {
       const { state, value, thenCallbacks } = this;
 
       while (thenCallbacks.length) {
@@ -176,9 +176,9 @@ export class MyPromise<T> {
   }
 }
 
-const async = makeAsync();
+const asap = makeAsap();
 
-function makeAsync() {
+function makeAsap() {
   if (typeof window.MutationObserver === "function") {
     const el = document.createElement("div");
     let currentCallback: (() => void) | null = null;
