@@ -62,24 +62,25 @@ export class MyPromise<T> {
     });
   }
 
-  static allSettled<T>(promises: (T | PromiseLike<T>)[]): MyPromise<T[]> {
+  static allSettled<T>(
+    promises: (T | PromiseLike<T>)[]
+  ): MyPromise<PromiseSettledResult<T>[]> {
     const length = promises.length;
-    const results = Array(length);
+    const results: PromiseSettledResult<T>[] = Array(length);
     let promisesResolved = 0;
 
     return new MyPromise(resolve => {
+      const resolver = (value: PromiseSettledResult<T>, index: number) => {
+        promisesResolved++;
+        results[index] = value;
+        if (promisesResolved === length) {
+          resolve(results);
+        }
+      };
       promises.forEach((promise, index) => {
         MyPromise.resolve(promise).then(
-          value => {
-            promisesResolved++;
-            results[index] = { status: "fulfilled", value };
-            if (promisesResolved === length) {
-              resolve(results);
-            }
-          },
-          reason => {
-            results[index] = { status: "rejected", reason };
-          }
+          value => resolver({ status: "fulfilled", value }, index),
+          reason => resolver({ status: "rejected", reason }, index)
         );
       });
     });
