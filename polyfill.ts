@@ -10,8 +10,8 @@ export class MyPromise<T> {
   private state = States.PENDING;
   private value: any = null;
   private thenCallbacks: [
-    UnaryFunction,
-    UnaryFunction,
+    UnaryFunction | undefined,
+    UnaryFunction | undefined,
     UnaryFunction,
     UnaryFunction
   ][] = [];
@@ -150,7 +150,7 @@ export class MyPromise<T> {
 
       while (thenCallbacks.length) {
         const [onResolveCb, onRejectCb, resolve, reject] =
-          thenCallbacks.shift();
+          thenCallbacks.shift()!;
         try {
           if (state === States.RESOLVED) {
             // onResolveCb may be undefined
