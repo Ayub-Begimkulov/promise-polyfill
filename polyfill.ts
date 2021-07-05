@@ -8,7 +8,7 @@ type UnaryFunction = (val?: any) => any;
 
 export class MyPromise<T> {
   private state = States.PENDING;
-  private value: any = null;
+  private value: unknown = null;
   private thenCallbacks: [
     UnaryFunction | undefined,
     UnaryFunction | undefined,
